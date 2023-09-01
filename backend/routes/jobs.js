@@ -6,11 +6,11 @@ const {
   deleteJob,
   updateJob,
 } = require("../controllers/jobController");
-//const requireAuth = require("../middleware/requireAuth");
+const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
-//router.use(requireAuth);
+router.use(requireAuth);
 
 // GET all workouts
 router.get("/", getJobs);
