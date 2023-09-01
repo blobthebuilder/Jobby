@@ -1,7 +1,7 @@
 const Job = require("../models/jobModel");
 const mongoose = require("mongoose");
 
-// get all jobs
+// get all jobs for specific user
 const getJobs = async (req, res) => {
   const user_id = req.user._id;
   const jobs = await Job.find({ user_id }).sort({ createdAt: -1 });
@@ -25,6 +25,13 @@ const getJob = async (req, res) => {
   }
 
   res.status(200).json(job);
+};
+
+// get all jobs
+const getAllJobs = async (req, res) => {
+  const jobs = await Job.find({}).sort({ createdAt: -1 });
+
+  res.status(200).json(jobs);
 };
 
 // create a new job
@@ -100,6 +107,7 @@ const updateJob = async (req, res) => {
 module.exports = {
   getJobs,
   getJob,
+  getAllJobs,
   createJob,
   deleteJob,
   updateJob,

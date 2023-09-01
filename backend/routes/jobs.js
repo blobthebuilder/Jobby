@@ -3,17 +3,22 @@ const {
   createJob,
   getJob,
   getJobs,
+  getAllJobs,
   deleteJob,
   updateJob,
 } = require("../controllers/jobController");
+
 const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
 
 router.use(requireAuth);
 
-// GET all workouts
+// GET all workouts for logged in user
 router.get("/", getJobs);
+
+// GET all jobs
+router.get("/all", getAllJobs);
 
 // GET a single workout
 router.get("/:id", getJob);

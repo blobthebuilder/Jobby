@@ -13,7 +13,7 @@ export const useLogout = () => {
     dispatch({ type: "LOGOUT" });
 
     // i didnt need this line for my website
-    jobsDispatch({ type: "SET_WORKOUTS", payload: null });
+    jobsDispatch({ type: "SET_JOBS", payload: null });
   };
 
   return { logout };

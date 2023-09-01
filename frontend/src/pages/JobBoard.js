@@ -2,16 +2,15 @@ import { useEffect } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-import JobDetails from "../components/JobDetails";
-import JobForm from "../components/JobForm";
+import JobPostings from "../components/JobPostings";
 
-const Home = () => {
+const JobBoard = () => {
   const { jobs, dispatch } = useJobsContext();
   const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch("/api/jobs", {
+      const response = await fetch("/api/jobs/all", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -30,17 +29,17 @@ const Home = () => {
   return (
     <div className="home">
       <div className="workouts">
-        <h1>My Jobs</h1>
+        <h1>Job Board</h1>
         {jobs &&
           jobs.map((job) => (
-            <JobDetails
+            <JobPostings
               key={job._id}
               job={job}
             />
           ))}
       </div>
-      <JobForm />
     </div>
   );
 };
-export default Home;
+
+export default JobBoard;
