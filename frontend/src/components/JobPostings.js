@@ -13,11 +13,16 @@ const JobPostings = ({ job }) => {
   }
 
   const handleClick = async () => {
+    const accept = {
+      pay: 999,
+    };
     const response = await fetch("/api/jobs/" + job._id, {
-      method: "DELETE",
+      method: "PATCH",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
+      body: JSON.stringify(accept),
     });
     const json = await response.json();
 
