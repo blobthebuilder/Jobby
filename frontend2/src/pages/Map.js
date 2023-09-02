@@ -52,7 +52,7 @@ function Map() {
       <Autocomplete>
         <input
           type="text"
-          placeholder="destination"
+          placeholder="destinations"
         />
       </Autocomplete>
     </div>
