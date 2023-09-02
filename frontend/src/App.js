@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import JobBoard from "./pages/JobBoard";
+import Map from "./pages/Map";
 
 function App() {
   const { user } = useAuthContext();
@@ -23,6 +24,10 @@ function App() {
             <Route
               path="/jobboard"
               element={user ? <JobBoard /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/map"
+              element={user ? <Map /> : <Navigate to="/login" />}
             />
             <Route
               path="/login"
