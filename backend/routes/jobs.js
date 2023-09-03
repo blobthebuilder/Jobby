@@ -22,7 +22,7 @@ router.get("/", getJobs);
 router.get("/all", getAllJobs);
 
 // GET jobs within distance
-router.get("/find", getByDistance);
+router.post("/find", getByDistance);
 
 // GET a single workout
 router.get("/:id", getJob);

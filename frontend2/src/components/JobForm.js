@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { GetLocation } from "./GetLocation";
 
 const JobForm = () => {
   const { dispatch } = useJobsContext();
@@ -12,6 +13,8 @@ const JobForm = () => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
+  const { lat, lng } = GetLocation();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,7 +23,7 @@ const JobForm = () => {
       return;
     }
 
-    const job = { title, description, pay };
+    const job = { title, description, pay, latitude: lat, longitude: lng };
 
     const response = await fetch("/api/jobs", {
       method: "POST",

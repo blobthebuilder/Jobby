@@ -1,19 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { GetLocation } from "../components/GetLocation";
 
 import JobPostings from "../components/JobPostings";
 
 const JobBoard = () => {
   const { jobs, dispatch } = useJobsContext();
   const { user } = useAuthContext();
-
+  const { lat, lng } = GetLocation();
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch("/api/jobs/all", {
+      const response = await fetch("/api/jobs/find", {
+        method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${user.token}`,
         },
+        body: JSON.stringify({
+          latitude: lat,
+          longitude: lng,
+          maxDistance: 1000,
+        }),
       });
       const json = await response.json();
 
@@ -25,7 +33,8 @@ const JobBoard = () => {
     if (user) {
       fetchWorkouts();
     }
-  }, [dispatch, user]);
+    console.log(jobs);
+  }, [dispatch, user, lat, lng]);
   return (
     <div className="home">
       <div className="workouts">
@@ -37,6 +46,7 @@ const JobBoard = () => {
               job={job}
             />
           ))}
+        {jobs.length == 0 && <p>No nearby Jobs</p>}
       </div>
     </div>
   );
