@@ -17,6 +17,7 @@ const jobSchema = new Schema(
       type: String,
       required: true,
     },
+    accepted: { type: String, required: true },
     location: {
       type: {
         type: String,

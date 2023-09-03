@@ -22,8 +22,14 @@ const JobForm = () => {
       setError("You must be logged in");
       return;
     }
-
-    const job = { title, description, pay, latitude: lat, longitude: lng };
+    const job = {
+      title,
+      description,
+      pay,
+      latitude: lat,
+      longitude: lng,
+      accepted: "-1",
+    };
 
     const response = await fetch("/api/jobs", {
       method: "POST",

@@ -14,9 +14,9 @@ const JobPostings = ({ job }) => {
 
   const handleClick = async () => {
     const accept = {
-      pay: 999,
+      pay: 1000,
     };
-    const response = await fetch("/api/jobs/" + job._id, {
+    const response = await fetch("/api/jobs/accept/" + job._id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

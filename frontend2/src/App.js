@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import JobBoard from "./pages/JobBoard";
 import Map from "./pages/Map";
+import Accepted from "./pages/Accepted";
 
 function App() {
   const { user } = useAuthContext();
@@ -24,6 +25,10 @@ function App() {
             <Route
               path="/jobboard"
               element={user ? <JobBoard /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/accepted"
+              element={user ? <Accepted /> : <Navigate to="/login" />}
             />
             <Route
               path="/map"

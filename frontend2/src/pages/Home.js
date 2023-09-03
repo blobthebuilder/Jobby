@@ -38,6 +38,7 @@ const Home = () => {
               job={job}
             />
           ))}
+        {(!jobs || jobs.length === 0) && <p>You don't have any jobs yet.</p>}
       </div>
       <JobForm />
     </div>

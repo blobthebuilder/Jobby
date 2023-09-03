@@ -36,6 +36,7 @@ const getAllJobs = async (req, res) => {
 
 // get by distance
 const getByDistance = async (req, res) => {
+  const user_id = req.user._id;
   const { latitude, longitude, maxDistance } = req.body;
   // maxDistance in meters
   console.log(latitude, longitude);
@@ -49,13 +50,23 @@ const getByDistance = async (req, res) => {
         $maxDistance: maxDistance,
       },
     },
+    user_id: { $ne: user_id },
   }).sort({ score: -1 });
+
+  res.status(200).json(jobs);
+};
+
+// get accepted jobs
+const getAcceptedJobs = async (req, res) => {
+  const user_id = req.user._id;
+  const jobs = await Job.find({ accepted: user_id }).sort({ createdAt: -1 });
+
   res.status(200).json(jobs);
 };
 
 // create a new job
 const createJob = async (req, res) => {
-  const { title, description, pay, longitude, latitude } = req.body;
+  const { title, description, pay, longitude, latitude, accepted } = req.body;
 
   let emptyFields = [];
 
@@ -82,6 +93,7 @@ const createJob = async (req, res) => {
       description,
       pay,
       user_id,
+      accepted,
       location: { type: "Point", coordinates: [longitude, latitude] },
     });
     res.status(200).json(job);
@@ -129,6 +141,30 @@ const updateJob = async (req, res) => {
   res.status(200).json(job);
 };
 
+// accept a job
+const acceptJob = async (req, res) => {
+  const user_id = req.user._id;
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "No such job" });
+  }
+
+  const job = await Job.findOneAndUpdate(
+    { _id: id },
+    {
+      accepted: user_id,
+      ...req.body,
+    }
+  );
+
+  if (!job) {
+    return res.status(400).json({ error: "No such job" });
+  }
+
+  res.status(200).json(job);
+};
+
 module.exports = {
   getJobs,
   getJob,
@@ -137,4 +173,6 @@ module.exports = {
   deleteJob,
   updateJob,
   getByDistance,
+  getAcceptedJobs,
+  acceptJob,
 };

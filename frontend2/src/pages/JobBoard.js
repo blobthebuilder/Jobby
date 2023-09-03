@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { GetLocation } from "../components/GetLocation";
@@ -46,7 +46,7 @@ const JobBoard = () => {
               job={job}
             />
           ))}
-        {jobs.length == 0 && <p>No nearby Jobs</p>}
+        {(!jobs || jobs.length === 0) && <p>No nearby Jobs</p>}
       </div>
     </div>
   );
