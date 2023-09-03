@@ -34,9 +34,28 @@ const getAllJobs = async (req, res) => {
   res.status(200).json(jobs);
 };
 
+// get by distance
+const getByDistance = async (req, res) => {
+  const { latitude, longitude, maxDistance } = req.body;
+  // maxDistance in meters
+  console.log(latitude, longitude);
+  const jobs = await Job.find({
+    location: {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [longitude, latitude],
+        },
+        $maxDistance: maxDistance,
+      },
+    },
+  }).sort({ score: -1 });
+  res.status(200).json(jobs);
+};
+
 // create a new job
 const createJob = async (req, res) => {
-  const { title, description, pay } = req.body;
+  const { title, description, pay, longitude, latitude } = req.body;
 
   let emptyFields = [];
 
@@ -58,7 +77,13 @@ const createJob = async (req, res) => {
   // add to the database
   try {
     const user_id = req.user._id;
-    const job = await Job.create({ title, description, pay, user_id });
+    const job = await Job.create({
+      title,
+      description,
+      pay,
+      user_id,
+      location: { type: "Point", coordinates: [longitude, latitude] },
+    });
     res.status(200).json(job);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -111,4 +136,5 @@ module.exports = {
   createJob,
   deleteJob,
   updateJob,
+  getByDistance,
 };

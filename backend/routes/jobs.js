@@ -6,6 +6,7 @@ const {
   getAllJobs,
   deleteJob,
   updateJob,
+  getByDistance,
 } = require("../controllers/jobController");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -19,6 +20,9 @@ router.get("/", getJobs);
 
 // GET all jobs
 router.get("/all", getAllJobs);
+
+// GET jobs within distance
+router.get("/find", getByDistance);
 
 // GET a single workout
 router.get("/:id", getJob);

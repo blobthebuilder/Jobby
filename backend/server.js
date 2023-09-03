@@ -24,6 +24,16 @@ app.use("/api/user", userRoutes);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+    const db = mongoose.connection;
+    db.collection("jobs")
+      .createIndex({ location: "2dsphere" })
+      .then(() => {
+        console.log("2dsphere index created successfully");
+      })
+      .catch((error) => {
+        console.error("Error creating 2dsphere index:", error);
+      });
+
     // listen for requests
     app.listen(process.env.PORT, () => {
       console.log("connected to db & listening on port " + process.env.PORT);
