@@ -79,6 +79,9 @@ const createJob = async (req, res) => {
   if (!pay) {
     emptyFields.push("pay");
   }
+  if (!longitude || !latitude) {
+    emptyFields.push("location");
+  }
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -165,6 +168,26 @@ const acceptJob = async (req, res) => {
   res.status(200).json(job);
 };
 
+// finish a job
+const finishJob = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "No such job" });
+  }
+
+  const job = await Job.findOneAndUpdate(
+    { _id: id },
+    { finished: true, ...req.body }
+  );
+
+  if (!job) {
+    return res.status(400).json({ error: "No such job" });
+  }
+
+  res.status(200).json(job);
+};
+
 module.exports = {
   getJobs,
   getJob,
@@ -175,4 +198,5 @@ module.exports = {
   getByDistance,
   getAcceptedJobs,
   acceptJob,
+  finishJob,
 };

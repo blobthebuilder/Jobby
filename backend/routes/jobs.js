@@ -9,6 +9,7 @@ const {
   getByDistance,
   getAcceptedJobs,
   acceptJob,
+  finishJob,
 } = require("../controllers/jobController");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -43,5 +44,8 @@ router.patch("/:id", updateJob);
 
 // accept a job
 router.patch("/accept/:id", acceptJob);
+
+// finish a job
+router.patch("/finish/:id", finishJob);
 
 module.exports = router;
