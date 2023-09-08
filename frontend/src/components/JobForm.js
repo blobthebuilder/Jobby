@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { GetLocation } from "./GetLocation";
 import { useJsApiLoader } from "@react-google-maps/api";
 import Autocomplete from "react-google-autocomplete";
 import Geocode from "react-geocode";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const libraries = ["places"];
 const JobForm = () => {
@@ -14,8 +15,10 @@ const JobForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [pay, setPay] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
-  const [location, setLocation] = useState("");
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -49,6 +52,8 @@ const JobForm = () => {
       longitude: lng,
       accepted: "-1",
       finished: false,
+      startDate,
+      endDate,
     };
     console.log(job);
 
@@ -72,6 +77,8 @@ const JobForm = () => {
       setTitle("");
       setDescription("");
       setPay("");
+      setStartDate("");
+      setEndDate("");
       setLocation("");
       dispatch({ type: "CREATE_JOB", payload: json });
     }
@@ -110,7 +117,7 @@ const JobForm = () => {
       <Autocomplete
         apiKey={process.env.REACT_APP_API_KEY}
         onPlaceSelected={(place) => {
-          //setLocation(place);
+          setLocation(place.formatted_address);
           Geocode.fromAddress(place.formatted_address).then(
             (response) => {
               const { lat: latitude, lng: longitude } =
@@ -123,8 +130,23 @@ const JobForm = () => {
             }
           );
         }}
+        onChange={(e) => {
+          setLocation(e.target.value);
+        }}
+        value={location}
         options={{ types: [] }}
         className={emptyFields.includes("location") ? "error" : ""}
+      />
+
+      <label>Start Date:</label>
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+      />
+      <label>End Date:</label>
+      <DatePicker
+        selected={endDate}
+        onChange={(date) => setEndDate(date)}
       />
 
       <button>Add Job</button>

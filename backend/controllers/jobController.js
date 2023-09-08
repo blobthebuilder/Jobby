@@ -66,7 +66,16 @@ const getAcceptedJobs = async (req, res) => {
 
 // create a new job
 const createJob = async (req, res) => {
-  const { title, description, pay, longitude, latitude, accepted } = req.body;
+  const {
+    title,
+    description,
+    pay,
+    longitude,
+    latitude,
+    accepted,
+    startDate,
+    endDate,
+  } = req.body;
 
   let emptyFields = [];
 
@@ -98,6 +107,8 @@ const createJob = async (req, res) => {
       user_id,
       accepted,
       location: { type: "Point", coordinates: [longitude, latitude] },
+      startDate,
+      endDate,
     });
     res.status(200).json(job);
   } catch (error) {

@@ -3,6 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // date fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import Geocode from "react-geocode";
 
@@ -88,6 +89,11 @@ const JobDetails = ({ job }) => {
           {address}
         </p>
       )}
+      <p>
+        <strong>From: </strong>
+        {format(new Date(job.startDate), "MM-dd-yyyy")} to{" "}
+        {format(new Date(job.endDate), "MM-dd-yyyy")}
+      </p>
       <p>{formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
       <span
         className="material-symbols-outlined"

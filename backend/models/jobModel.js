@@ -28,6 +28,14 @@ const jobSchema = new Schema(
       },
     },
     finished: { type: Boolean, default: false, required: true },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: false,
+    },
   },
   { timestamps: true }
 );
