@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useJobsContext } from "../hooks/useJobsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { GetLocation } from "../components/GetLocation";
+import { useState } from "react";
 
 import JobPostings from "../components/JobPostings";
 
@@ -9,8 +10,11 @@ const JobBoard = () => {
   const { jobs, dispatch } = useJobsContext();
   const { user } = useAuthContext();
   const { lat, lng } = GetLocation();
+
+  const [distance, setDistance] = useState(1000);
   useEffect(() => {
     const fetchWorkouts = async () => {
+      const dist = distance * 1000;
       const response = await fetch("/api/jobs/find", {
         method: "POST",
         headers: {
@@ -20,7 +24,7 @@ const JobBoard = () => {
         body: JSON.stringify({
           latitude: lat,
           longitude: lng,
-          maxDistance: 1000,
+          maxDistance: dist,
         }),
       });
       const json = await response.json();
@@ -36,7 +40,8 @@ const JobBoard = () => {
     if (user) {
       fetchWorkouts();
     }
-  }, [dispatch, user, lat, lng]);
+  }, [dispatch, user, lat, lng, distance]);
+
   return (
     <div className="home">
       <div className="workouts">
@@ -50,6 +55,14 @@ const JobBoard = () => {
           ))}
         {(!jobs || jobs.length === 0) && <p>No nearby Jobs</p>}
       </div>
+      <form>
+        <label>Max distance in km:</label>
+        <input
+          type="number"
+          onChange={(e) => setDistance(e.target.value)}
+          value={distance}
+        />
+      </form>
     </div>
   );
 };

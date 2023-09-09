@@ -21,7 +21,6 @@ const JobPostings = ({ job }) => {
   ).then(
     (response) => {
       const address = response.results[0].formatted_address;
-      console.log(response);
       setAddress(address);
     },
     (error) => {
