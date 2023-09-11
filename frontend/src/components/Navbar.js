@@ -13,7 +13,7 @@ const Navbar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Title</h1>
+          <h1>Jobby</h1>
         </Link>
         <nav>
           {user && (
@@ -22,7 +22,6 @@ const Navbar = () => {
               <button onClick={handleClick}>Logout</button>
               <Link to="/jobboard">Open Jobs</Link>
               <Link to="/">Home</Link>
-              <Link to="/map">Map</Link>
               <Link to="/accepted">Accepted</Link>
             </div>
           )}

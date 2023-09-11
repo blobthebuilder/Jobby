@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import JobBoard from "./pages/JobBoard";
-import Map from "./pages/Map";
 import Accepted from "./pages/Accepted";
 
 function App() {
@@ -29,10 +28,6 @@ function App() {
             <Route
               path="/accepted"
               element={user ? <Accepted /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/map"
-              element={user ? <Map /> : <Navigate to="/login" />}
             />
             <Route
               path="/login"
